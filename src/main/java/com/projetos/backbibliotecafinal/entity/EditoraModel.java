@@ -7,6 +7,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.LocalDate;
+
 @Getter
 @Setter
 @NoArgsConstructor
@@ -23,4 +25,6 @@ public class EditoraModel {
 
     @Column(nullable = false, length = 120)
     private String nome;
+
+    private LocalDate dataExclusao;
 }

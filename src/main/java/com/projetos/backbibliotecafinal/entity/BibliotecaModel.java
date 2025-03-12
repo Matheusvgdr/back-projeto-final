@@ -7,6 +7,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.LocalDate;
+
 @Getter
 @Setter
 @AllArgsConstructor
@@ -26,4 +28,6 @@ public class BibliotecaModel {
 
     @OneToOne(cascade = CascadeType.ALL)
     private UsuarioModel usuario;
+
+    private LocalDate dataExclusao;
 }

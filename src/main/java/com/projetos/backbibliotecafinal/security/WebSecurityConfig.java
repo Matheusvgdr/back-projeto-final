@@ -45,18 +45,21 @@ public class WebSecurityConfig {
 
         http.csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(authorize -> {
-                    authorize.requestMatchers(
-                                    AntPathRequestMatcher.antMatcher("/swagger-ui/**"),
-                                    AntPathRequestMatcher.antMatcher("/swagger-ui.html"),
-                                    AntPathRequestMatcher.antMatcher("/v3/**"),
-                                    AntPathRequestMatcher.antMatcher("/h2-console/**")
-                            ).permitAll()
-                            .requestMatchers(AntPathRequestMatcher.antMatcher("/usuario")).permitAll()
-                            .requestMatchers(AntPathRequestMatcher.antMatcher("/biblioteca")).permitAll()
-                            .requestMatchers(AntPathRequestMatcher.antMatcher("/livro")).permitAll()
-                            .requestMatchers(AntPathRequestMatcher.antMatcher("/importacao")).permitAll()
-                            .requestMatchers(AntPathRequestMatcher.antMatcher(HttpMethod.POST, "/clientes")).permitAll()
-                            .anyRequest().authenticated();
+//                    authorize.requestMatchers(
+//                                    AntPathRequestMatcher.antMatcher("/swagger-ui/**"),
+//                                    AntPathRequestMatcher.antMatcher("/swagger-ui.html"),
+//                                    AntPathRequestMatcher.antMatcher("/v3/**"),
+//                                    AntPathRequestMatcher.antMatcher("/h2-console/**")
+//
+//                            ).permitAll()
+//                            .requestMatchers(AntPathRequestMatcher.antMatcher("/usuario/**")).permitAll()
+//                            .requestMatchers(AntPathRequestMatcher.antMatcher("/biblioteca/**")).permitAll()
+//                            .requestMatchers(AntPathRequestMatcher.antMatcher("/livro/**")).permitAll()
+//                            .requestMatchers(AntPathRequestMatcher.antMatcher("/importacao")).permitAll()
+//                            .requestMatchers(AntPathRequestMatcher.antMatcher("/autores/**")).permitAll()
+//
+//                            .requestMatchers(AntPathRequestMatcher.antMatcher(HttpMethod.POST, "/clientes")).permitAll()
+                            authorize.anyRequest().permitAll();
                 })
                 .headers(h -> h.frameOptions(HeadersConfigurer.FrameOptionsConfig::sameOrigin)) // h2-console
                 .addFilter(new JWTAuthenticationFilter(authenticationManager)) //autenticacao

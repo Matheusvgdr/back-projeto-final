@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 
 @Getter
 @Setter
@@ -43,5 +44,7 @@ public class LivroModel {
 
     @Column(nullable = false)
     public String isbn;
+
+    private LocalDate dataExclusao;
 
 }

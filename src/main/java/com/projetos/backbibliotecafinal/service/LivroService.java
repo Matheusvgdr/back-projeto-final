@@ -13,6 +13,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+
 @Service
 @RequiredArgsConstructor
 public class LivroService {
@@ -29,10 +31,18 @@ public class LivroService {
 
         livroNovo.setAutor(autorService.buscarPorId(livroRequest.idAutor()));
         livroNovo.setEditora(editoraService.buscarPorId(livroRequest.idEditora()));
-
-        var teste = livroRepository.save(livroNovo);
+        livroRepository.save(livroNovo);
 
         return new ApiResponse<>(null, LivroMessage.CADASTRO_SUCESSO, HttpStatus.CREATED.value());
+    }
+
+    public ApiResponse<?> deletar(Long id) {
+        livroRepository.findById(id).ifPresent(livro -> {
+            livro.setDataExclusao(LocalDate.now());
+            livroRepository.save(livro);
+        });
+
+        return new ApiResponse<>(null, "", HttpStatus.NO_CONTENT.value());
     }
 
     public InsercaoExistenteResponse<LivroModel> buscarOuCriarLivro(LivroModel livroModel) {
