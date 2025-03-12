@@ -39,7 +39,7 @@ public class AutorService {
     }
 
     public AutorModel buscarPorId(Long id) {
-        return autorRepository.findById(id).orElseThrow(() -> new AutorNaoEncontradoException(AutorMessage.INDIVIDUAL_NOT_FOUND));
+        return autorRepository.findByIdActive(id).orElseThrow(() -> new AutorNaoEncontradoException(AutorMessage.INDIVIDUAL_NOT_FOUND));
     }
 
     public InsercaoExistenteResponse<AutorModel> buscarOuSalvar(AutorModel autorModel) {

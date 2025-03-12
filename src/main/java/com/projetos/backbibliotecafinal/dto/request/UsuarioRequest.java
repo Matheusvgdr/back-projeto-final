@@ -1,5 +1,6 @@
 package com.projetos.backbibliotecafinal.dto.request;
 
+import com.projetos.backbibliotecafinal.constants.enums.CategoriaEnum;
 import com.projetos.backbibliotecafinal.constants.enums.TipoUsuarioEnum;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -20,6 +21,9 @@ public record UsuarioRequest(
         String cpf,
 
         @NotNull(message = "O campo tipo usuário é obrigatório")
-        TipoUsuarioEnum tipo
+        TipoUsuarioEnum tipo,
+
+        @NotNull(message = "O campo categoria é obrigatório")
+        CategoriaEnum categoria
 ) {
 }

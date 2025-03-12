@@ -8,6 +8,7 @@ import lombok.Setter;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.List;
 
 @Getter
 @Setter
@@ -32,11 +33,9 @@ public class LivroModel {
     public String titulo;
 
     @ManyToOne(fetch = FetchType.EAGER, cascade = {CascadeType.MERGE, CascadeType.PERSIST})
-    @JoinColumn(name = "idAutor")
     public AutorModel autor;
 
     @ManyToOne(fetch = FetchType.EAGER, cascade = {CascadeType.MERGE, CascadeType.PERSIST})
-    @JoinColumn(name = "idEditora")
     public EditoraModel editora;
 
     @Column(nullable = false)
@@ -46,5 +45,11 @@ public class LivroModel {
     public String isbn;
 
     private LocalDate dataExclusao;
+
+    @ManyToOne
+    private BibliotecaModel biblioteca;
+
+    @ManyToMany(mappedBy = "livros")
+    private List<EmprestimoModel> emprestimos;
 
 }

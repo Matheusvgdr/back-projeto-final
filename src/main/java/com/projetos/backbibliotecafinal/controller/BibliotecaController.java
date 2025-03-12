@@ -24,7 +24,6 @@ public class BibliotecaController {
 
     @GetMapping
     public void teste() {
-        bibliotecaService.get();
-
+        
     }
 }

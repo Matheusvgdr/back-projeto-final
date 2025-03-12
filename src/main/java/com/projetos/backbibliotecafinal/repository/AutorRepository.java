@@ -10,8 +10,12 @@ import java.util.Optional;
 
 @Repository
 public interface AutorRepository extends JpaRepository<AutorModel, Long> {
+
     Optional<AutorModel> findByNome(String nome);
 
     @Query("SELECT A FROM AutorModel A WHERE A.dataExclusao is null ")
     List<AutorModel> findAllActive();
+
+    @Query("SELECT A FROM AutorModel A WHERE A.id = ?1 AND A.dataExclusao IS NULL ")
+    Optional<AutorModel> findByIdActive(Long idAutor);
 }
