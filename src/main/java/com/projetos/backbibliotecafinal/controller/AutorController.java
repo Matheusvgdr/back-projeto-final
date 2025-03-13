@@ -4,6 +4,7 @@ import com.projetos.backbibliotecafinal.dto.request.AutorRequest;
 import com.projetos.backbibliotecafinal.dto.response.ApiResponse;
 import com.projetos.backbibliotecafinal.entity.AutorModel;
 import com.projetos.backbibliotecafinal.service.AutorService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -13,6 +14,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/autores")
 @RequiredArgsConstructor
+@Tag(name = "Autor")
 public class AutorController {
 
     private final AutorService autorService;

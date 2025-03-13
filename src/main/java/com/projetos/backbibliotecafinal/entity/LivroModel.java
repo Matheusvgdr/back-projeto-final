@@ -13,6 +13,7 @@ import java.util.List;
 @Getter
 @Setter
 @NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name = "tb005_livro")
 public class LivroModel {
@@ -30,19 +31,19 @@ public class LivroModel {
     private Long id;
 
     @Column(nullable = false, length = 90)
-    public String titulo;
+    private String titulo;
 
     @ManyToOne(fetch = FetchType.EAGER, cascade = {CascadeType.MERGE, CascadeType.PERSIST})
-    public AutorModel autor;
+    private AutorModel autor;
 
     @ManyToOne(fetch = FetchType.EAGER, cascade = {CascadeType.MERGE, CascadeType.PERSIST})
-    public EditoraModel editora;
+    private EditoraModel editora;
 
     @Column(nullable = false)
-    public BigDecimal preco;
+    private BigDecimal preco;
 
     @Column(nullable = false)
-    public String isbn;
+    private String isbn;
 
     private LocalDate dataExclusao;
 
@@ -50,6 +51,6 @@ public class LivroModel {
     private BibliotecaModel biblioteca;
 
     @ManyToMany(mappedBy = "livros")
-    private List<EmprestimoModel> emprestimos;
+    private List<TransacaoModel> transacao;
 
 }

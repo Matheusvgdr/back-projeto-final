@@ -27,7 +27,6 @@ public class UsuarioService {
 
         var usuarioNovo = usuarioMapper.toUsuarioModel(usuarioRequest);
         usuarioNovo.setSenha(passwordEncoder.encode(usuarioNovo.getSenha()));
-        usuarioNovo.setTipo(TipoUsuarioEnum.CLIENTE);
 
         usuarioRepository.save(usuarioNovo);
 

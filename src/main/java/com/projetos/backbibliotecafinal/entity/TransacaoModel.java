@@ -1,6 +1,7 @@
 package com.projetos.backbibliotecafinal.entity;
 
 import com.projetos.backbibliotecafinal.constants.enums.StatusEmprestimoEnum;
+import com.projetos.backbibliotecafinal.constants.enums.TipoTransacaoEnum;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -16,28 +17,32 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "tb005_emprestimo")
-public class EmprestimoModel {
+@Table(name = "tb005_transacao")
+public class TransacaoModel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column()
     private BigDecimal valor;
 
-    private LocalDate dataEmprestimo;
+    @Column()
+    private LocalDate dataTransacao;
 
+    @Column()
     private LocalDate dataDevolucao;
 
     @ManyToMany()
-    @JoinTable(
-            name = "tb006_emprestimo_livro",
-            joinColumns = @JoinColumn(name = "emprestimo_id"),
-            inverseJoinColumns = @JoinColumn(name = "livro_id"))
+    @JoinTable(name = "tb006_transacao_livro", joinColumns = @JoinColumn(name = "transacao_id"), inverseJoinColumns = @JoinColumn(name = "livro_id"))
     private List<LivroModel> livros;
 
     @ManyToOne
     private UsuarioModel usuario;
 
+    @Column()
     private StatusEmprestimoEnum status;
+
+    @Column()
+    private TipoTransacaoEnum tipo;
 
 }

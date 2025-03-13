@@ -7,6 +7,7 @@ import com.projetos.backbibliotecafinal.dto.request.LivroRequest;
 import com.projetos.backbibliotecafinal.dto.response.ApiResponse;
 import com.projetos.backbibliotecafinal.entity.LivroModel;
 import com.projetos.backbibliotecafinal.service.LivroService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -17,6 +18,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/livro")
 @RequiredArgsConstructor
+@Tag(name = "Livro")
 public class LivroController {
 
     private final LivroService livroService;
