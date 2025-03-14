@@ -1,4 +1,4 @@
-# Back-Biblioteca-Final
+# Gerenciamento de biblioteca
 ![Documentação da API](doc/documentacao.png)
 ## Descrição
 
