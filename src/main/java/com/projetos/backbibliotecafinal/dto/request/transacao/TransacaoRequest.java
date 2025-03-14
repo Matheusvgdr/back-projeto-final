@@ -7,13 +7,13 @@ import java.time.LocalDate;
 import java.util.List;
 
 public record TransacaoRequest(
-        @NotNull(message = "O campo tipo usuário é obrigatório")
+        @NotNull
         List<Long> idLivros,
-        @NotNull(message = "O campo tipo usuário é obrigatório")
+        @NotNull
         Long idUsuario,
-        @NotNull(message = "O campo tipo usuário é obrigatório")
+        @NotNull(message = "O campo tipo de transação é obrigatório")
         TipoTransacaoEnum tipo,
-        @NotNull(message = "O campo tipo usuário é obrigatório")
+        @NotNull(message = "O campo data de devolução é obrigatório")
         LocalDate dataDevolucao
 ) {
 }

@@ -4,6 +4,7 @@ import com.projetos.backbibliotecafinal.constants.messages.BibliotecaMessage;
 import com.projetos.backbibliotecafinal.constants.messages.EditoraMessage;
 import com.projetos.backbibliotecafinal.dto.request.editora.EditoraRequest;
 import com.projetos.backbibliotecafinal.dto.response.ApiResponse;
+import com.projetos.backbibliotecafinal.dto.response.EditoraResponse;
 import com.projetos.backbibliotecafinal.dto.response.InsercaoExistenteResponse;
 import com.projetos.backbibliotecafinal.entity.AutorModel;
 import com.projetos.backbibliotecafinal.entity.EditoraModel;
@@ -25,12 +26,12 @@ public class EditoraService {
     private final EditoraRepository editoraRepository;
     private final EditoraMapper editoraMapper;
 
-    public ApiResponse<?> salvar(EditoraRequest editoraRequest) {
+    public ApiResponse<Long> salvar(EditoraRequest editoraRequest) {
 
         var novaEditora = editoraMapper.toEditoraModel(editoraRequest);
-        editoraRepository.save(novaEditora);
+        var resultado = editoraRepository.save(novaEditora);
 
-        return new ApiResponse<>(null, EditoraMessage.SAVE_SUCCESS, HttpStatus.CREATED.value());
+        return new ApiResponse<>(resultado.getId(), EditoraMessage.SAVE_SUCCESS, HttpStatus.CREATED.value());
     }
 
     public InsercaoExistenteResponse<EditoraModel> buscarOuSalvar(EditoraModel editoraModel) {
@@ -50,14 +51,14 @@ public class EditoraService {
         //return editoraRepository.findByNome(editoraModel.getNome()).isPresent() ? null : editoraRepository.save(editoraModel);
     }
 
-    public ApiResponse<List<EditoraModel>> buscar() {
+    public ApiResponse<List<EditoraResponse>> buscar() {
         var resultado = editoraRepository.findAllActive();
 
         if (resultado.isEmpty()) {
             throw new EditoraNaoEncontradaException(EditoraMessage.REGISTER_NOT_FOUND);
         }
 
-        return new ApiResponse<>(resultado, EditoraMessage.SEARCH_LIST_SUCCESS, HttpStatus.OK.value());
+        return new ApiResponse<>(editoraMapper.toEditoraResponseList(resultado), EditoraMessage.SEARCH_LIST_SUCCESS, HttpStatus.OK.value());
     }
 
     public EditoraModel buscarPorId(Long id) {

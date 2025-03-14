@@ -35,18 +35,18 @@ public class UsuarioService {
 
     public ApiResponse<UsuarioResponse> buscarResponsePorId(Long id) {
 
-        var usuario = usuarioRepository.findById(id);
+        var usuario = usuarioRepository.findByIdActive(id);
 
         if (usuario.isEmpty())
             throw new UsuarioNaoEncontradoException(UsuarioMessage.REGISTER_NOT_FOUND);
 
         var usuarioResponse = usuarioMapper.toUsuarioResponse(usuario.get());
 
-        return new ApiResponse<>(usuarioResponse, "", HttpStatus.OK.value());
+        return new ApiResponse<>(usuarioResponse, UsuarioMessage.SEARCH_SUCCESS, HttpStatus.OK.value());
     }
 
     public UsuarioModel buscarModelPorId(Long id) {
-        var usuario = usuarioRepository.findById(id);
+        var usuario = usuarioRepository.findByIdActive(id);
 
         if (usuario.isEmpty())
             throw new UsuarioNaoEncontradoException(UsuarioMessage.REGISTER_NOT_FOUND);
@@ -56,7 +56,6 @@ public class UsuarioService {
 
     public void validarFuncionario(Long id) {
         usuarioRepository.findFuncionarioActive(id);
-
     }
 
 }

@@ -4,6 +4,7 @@ import com.projetos.backbibliotecafinal.constants.messages.BibliotecaMessage;
 import com.projetos.backbibliotecafinal.dto.request.biblioteca.BibliotecaRequest;
 import com.projetos.backbibliotecafinal.dto.request.biblioteca.BibliotecaUpdateRequest;
 import com.projetos.backbibliotecafinal.dto.response.ApiResponse;
+import com.projetos.backbibliotecafinal.dto.response.BibliotecaResponse;
 import com.projetos.backbibliotecafinal.entity.BibliotecaModel;
 import com.projetos.backbibliotecafinal.handler.exceptions.BibliotecaNaoEncontradaException;
 import com.projetos.backbibliotecafinal.repository.BibliotecaRepository;
@@ -23,27 +24,27 @@ public class BibliotecaService {
     private final BibliotecaMapper bibliotecaMapper;
     private final UsuarioService usuarioService;
 
-    public ApiResponse<?> salvar(BibliotecaRequest bibliotecaRequest){
+    public ApiResponse<Long> salvar(BibliotecaRequest bibliotecaRequest){
 
         var bibliotecaNova = bibliotecaMapper.toBibliotecaModel(bibliotecaRequest);
         bibliotecaNova.setUsuario(usuarioService.buscarModelPorId(bibliotecaRequest.idUsuario()));
-        bibliotecaRepository.save(bibliotecaNova);
+        var resultado = bibliotecaRepository.save(bibliotecaNova);
 
-        return new ApiResponse<>(null, BibliotecaMessage.SAVE_SUCCESS, HttpStatus.CREATED.value());
+        return new ApiResponse<>(resultado.getId(), BibliotecaMessage.SAVE_SUCCESS, HttpStatus.CREATED.value());
     }
 
-    public ApiResponse<List<BibliotecaModel>> buscar() { //TODO: criar response retirando a data de exclusao
+    public ApiResponse<List<BibliotecaResponse>> buscar() { //TODO: criar response retirando a data de exclusao
         var bibliotecas = bibliotecaRepository.findAllActive();
 
         if (bibliotecas.isEmpty()) {
             throw new BibliotecaNaoEncontradaException(BibliotecaMessage.SEARCH_LIST_NOT_FOUND);
         }
 
-        return new ApiResponse<>(bibliotecas, BibliotecaMessage.SEARCH_LIST_SUCCESS, HttpStatus.OK.value());
+        return new ApiResponse<>(bibliotecaMapper.toBibliotecaResponseList(bibliotecas), BibliotecaMessage.SEARCH_LIST_SUCCESS, HttpStatus.OK.value());
     }
 
     public ApiResponse<?> atualizar(Long id, BibliotecaUpdateRequest bibliotecaRequest) {
-        var bibliotecaOriginal = bibliotecaRepository.findByIdActive(id);
+        var bibliotecaOriginal = bibliotecaRepository.findByUsuario(id);
 
         bibliotecaOriginal.ifPresentOrElse(biblioteca -> {
             if(bibliotecaRequest.nome() != null)
@@ -69,6 +70,20 @@ public class BibliotecaService {
         });
 
         return new ApiResponse<>(null, BibliotecaMessage.DELETE_SUCCESS, HttpStatus.OK.value());
+    }
+
+    public ApiResponse<BibliotecaResponse> buscarBibliotecaResponsePorUsuarioId(Long idUsuario) {
+        var biblioteca = bibliotecaRepository.findByUsuario(idUsuario);
+
+        if (biblioteca.isEmpty())
+            throw new BibliotecaNaoEncontradaException(BibliotecaMessage.REGISTER_NOT_FOUND);
+
+        var bibliotecaResponse = new BibliotecaResponse();
+        bibliotecaResponse.setId(biblioteca.get().getId());
+        bibliotecaResponse.setEndereco(biblioteca.get().getEndereco());
+        bibliotecaResponse.setNome(biblioteca.get().getNome());
+
+        return new ApiResponse<>(bibliotecaResponse, BibliotecaMessage.SEARCH_SUCCESS, HttpStatus.OK.value());
     }
 
     public BibliotecaModel buscarBibliotecaPorUsuarioId(Long idUsuario) {

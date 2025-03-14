@@ -36,16 +36,16 @@ public class LivroService {
         return new ApiResponse<>(livroMapper.toListLivroResponse(livros), LivroMessage.SEARCH_LIST_SUCCESS, HttpStatus.OK.value());
     }
 
-    public ApiResponse<?> salvar(LivroRequest livroRequest) {
+    public ApiResponse<Long> salvar(LivroRequest livroRequest) {
 
         var livroNovo = livroMapper.toLivroModel(livroRequest);
 
         livroNovo.setAutor(autorService.buscarPorId(livroRequest.idAutor()));
         livroNovo.setEditora(editoraService.buscarPorId(livroRequest.idEditora()));
         livroNovo.setBiblioteca(bibliotecaService.buscarPorId(livroRequest.idBiblioteca()));
-        livroRepository.save(livroNovo);
+        var resultado = livroRepository.save(livroNovo);
 
-        return new ApiResponse<>(null, LivroMessage.SAVE_SUCCESS, HttpStatus.CREATED.value());
+        return new ApiResponse<>(resultado.getId(), LivroMessage.SAVE_SUCCESS, HttpStatus.CREATED.value());
     }
 
     public ApiResponse<?> atualizar(Long idLivro, LivroRequest livroRequest) {
@@ -87,6 +87,10 @@ public class LivroService {
         });
 
         return new ApiResponse<>(null, LivroMessage.DELETE_SUCCESS.formatted(), HttpStatus.OK.value());
+    }
+
+    public void salvarLivroEmprestimo(LivroModel livroModel) {
+        livroRepository.save(livroModel);
     }
 
     public LivroModel buscarPorId(Long id){

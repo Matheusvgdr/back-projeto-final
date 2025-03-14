@@ -8,6 +8,7 @@ import com.projetos.backbibliotecafinal.dto.response.ApiResponse;
 import com.projetos.backbibliotecafinal.dto.response.TransacaoResponse;
 import com.projetos.backbibliotecafinal.entity.LivroModel;
 import com.projetos.backbibliotecafinal.entity.TransacaoModel;
+import com.projetos.backbibliotecafinal.handler.exceptions.TransacaoNaoEncontradaException;
 import com.projetos.backbibliotecafinal.handler.exceptions.TransacaoNaoPermitidaException;
 import com.projetos.backbibliotecafinal.repository.TransacaoRepository;
 import com.projetos.backbibliotecafinal.utils.mapper.LivroMapper;
@@ -18,7 +19,9 @@ import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.Period;
 import java.util.ArrayList;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -34,20 +37,26 @@ public class TransacaoService {
 
         validarDatas(LocalDate.now(), transacaoRequest.dataDevolucao());
 
-        transacaoRepository.findByIdUsuario(transacaoRequest.idUsuario()).ifPresentOrElse(transacaoModel -> {
-            throw new TransacaoNaoPermitidaException(TransacaoMessage.EMPRESTIMO_LOCALIZADO);
-        }, () -> {
+        if (transacaoRequest.tipo() == TipoTransacaoEnum.EMPRESTIMO) {
+            transacaoRepository.findEmprestimoByIdUsuario(transacaoRequest.idUsuario()).ifPresentOrElse(transacaoModel -> {
+
+                throw new TransacaoNaoPermitidaException(TransacaoMessage.EMPRESTIMO_LOCALIZADO);
+            }, () -> {
+                transacaoRepository.save(montarTransacao(transacaoRequest));
+            });
+        } else {
             transacaoRepository.save(montarTransacao(transacaoRequest));
-        });
+        }
+
 
         return new ApiResponse<>(null, TransacaoMessage.SAVE_SUCCESS, HttpStatus.CREATED.value());
     }
 
-    public ApiResponse<TransacaoResponse> buscarPorUsuario(long idUsuario) {
-        var transacao = transacaoRepository.findByIdUsuario(idUsuario);
+    public ApiResponse<TransacaoResponse> buscarEmprestimosPorUsuario(long idUsuario) {
+        var transacao = transacaoRepository.findEmprestimoByIdUsuario(idUsuario);
 
         if (transacao.isEmpty())
-            throw new RuntimeException("transacao");
+            throw new TransacaoNaoPermitidaException(TransacaoMessage.REGISTER_NOT_FOUND);
 
         var response = new TransacaoResponse();
 
@@ -58,38 +67,101 @@ public class TransacaoService {
         response.setStatus(transacao.get().getStatus());
         response.setLivros(livroMapper.toListLivroResponse(transacao.get().getLivros()));
 
-        return new ApiResponse<>(response, "", HttpStatus.OK.value());
+        return new ApiResponse<>(response, TransacaoMessage.SEARCH_LIST_SUCCESS, HttpStatus.OK.value());
+    }
+
+    public ApiResponse<List<TransacaoResponse>> buscarTransacoes(long idUsuario) {
+        var transacao = transacaoRepository.findTransacoesByIdUsuario(idUsuario);
+
+        if (transacao.isEmpty())
+            throw new TransacaoNaoPermitidaException("transacao");
+
+        var listaTransacoes = new ArrayList<TransacaoResponse>();
+
+        transacao.forEach(transacaoModel -> {
+            var response = new TransacaoResponse();
+            response.setValor(transacaoModel.getValor());
+            response.setDataTransacao(transacaoModel.getDataTransacao());
+            response.setDataDevolucao(transacaoModel.getDataDevolucao());
+            response.setTipo(transacaoModel.getTipo());
+            response.setStatus(transacaoModel.getStatus());
+            response.setLivros(livroMapper.toListLivroResponse(transacaoModel.getLivros()));
+
+            listaTransacoes.add(response);
+        });
+
+
+        return new ApiResponse<>(listaTransacoes, TransacaoMessage.SEARCH_LIST_SUCCESS, HttpStatus.OK.value());
+    }
+
+    public ApiResponse<?> devolverLivro(Long idUsuario) {
+        var transacao = transacaoRepository.findEmprestimoByIdUsuario(idUsuario);
+
+        if (transacao.isEmpty())
+            throw new TransacaoNaoEncontradaException(TransacaoMessage.REGISTER_NOT_FOUND);
+
+        var emprestimo = transacao.get();
+
+        emprestimo.getLivros().forEach(livro -> {
+            livro.setDataExclusao(null);
+            livroService.salvarLivroEmprestimo(livro);
+        });
+
+        if (emprestimo.getDataDevolucao().isBefore(LocalDate.now())) {
+
+            var diasAtraso = Period.between(emprestimo.getDataDevolucao(), LocalDate.now()).getDays();
+            emprestimo.setMulta(emprestimo.getValor().multiply(BigDecimal.valueOf(0.10 * diasAtraso)));
+            emprestimo.setStatus(StatusEmprestimoEnum.ENTREGUE);
+
+            transacaoRepository.save(emprestimo);
+
+            return new ApiResponse<>(null, TransacaoMessage.MULTA_EMPRESTIMO.formatted(emprestimo.getMulta(), diasAtraso), HttpStatus.OK.value());
+        } else {
+
+            emprestimo.setDataDevolucao(LocalDate.now());
+            emprestimo.setStatus(StatusEmprestimoEnum.ENTREGUE);
+
+            transacaoRepository.save(emprestimo);
+            return new ApiResponse<>(null, TransacaoMessage.DEVOLUCAO_EMPRESTIMO, HttpStatus.OK.value());
+        }
     }
 
     private TransacaoModel montarTransacao(TransacaoRequest transacaoRequest) {
 
-        var emprestimoNovo = new TransacaoModel();
+        var transacao = new TransacaoModel();
 
-        if (transacaoRequest.tipo() != TipoTransacaoEnum.COMPRA)
-            emprestimoNovo.setStatus(StatusEmprestimoEnum.EMPRESTADO);
+        if (transacaoRequest.tipo() != TipoTransacaoEnum.COMPRA) {
+            transacao.setStatus(StatusEmprestimoEnum.EMPRESTADO);
+            transacao.setDataDevolucao(transacaoRequest.dataDevolucao());
+        }
 
-        emprestimoNovo.setUsuario(usuarioService.buscarModelPorId(transacaoRequest.idUsuario()));
+        transacao.setUsuario(usuarioService.buscarModelPorId(transacaoRequest.idUsuario()));
 
         var listaLivros = new ArrayList<LivroModel>();
         var valorTransacao = BigDecimal.ZERO;
 
         for (var livro : transacaoRequest.idLivros()) {
             var livroCadastrado = livroService.buscarPorId(livro);
-            valorTransacao = valorTransacao.add(livroCadastrado.getPreco());
+            livroCadastrado.setDataExclusao(LocalDate.now());
+            valorTransacao = valorTransacao.add(aplicarDesconto(livroCadastrado.getPreco(), transacaoRequest.tipo()));
             listaLivros.add(livroCadastrado);
         }
 
-        emprestimoNovo.setTipo(transacaoRequest.tipo());
-        emprestimoNovo.setDataTransacao(LocalDate.now());
-        emprestimoNovo.setLivros(listaLivros);
-        emprestimoNovo.setValor(valorTransacao);
+        transacao.setTipo(transacaoRequest.tipo());
+        transacao.setDataTransacao(LocalDate.now());
+        transacao.setLivros(listaLivros);
+        transacao.setValor(valorTransacao);
 
-        return emprestimoNovo;
+        return transacao;
+    }
+
+    private BigDecimal aplicarDesconto(BigDecimal precoLivro, TipoTransacaoEnum tipo) {
+        return tipo == TipoTransacaoEnum.EMPRESTIMO ? precoLivro.subtract(precoLivro.multiply(BigDecimal.valueOf(0.25))) : precoLivro;
     }
 
     private void validarDatas(LocalDate dataEmprestimo, LocalDate dataDevolucao) {
 
         if (dataDevolucao.isBefore(dataEmprestimo))
-            throw new TransacaoNaoPermitidaException(TransacaoMessage.DATA_INVALIDA);
+            throw new TransacaoNaoPermitidaException(TransacaoMessage.INVALID_DATE);
     }
 }

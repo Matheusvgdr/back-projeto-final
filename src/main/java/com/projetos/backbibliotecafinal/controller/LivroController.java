@@ -10,6 +10,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -22,12 +23,14 @@ public class LivroController {
 
     private final LivroService livroService;
 
+    @PreAuthorize("hasAnyRole('FUNCIONARIO')")
     @PostMapping
-    public ResponseEntity<ApiResponse<?>> salvar(@RequestBody @Valid LivroRequest livroRequest) {
+    public ResponseEntity<ApiResponse<Long>> salvar(@RequestBody @Valid LivroRequest livroRequest) {
         var resultado = livroService.salvar(livroRequest);
         return ResponseEntity.status(resultado.getHttpStatus()).body(resultado);
     }
 
+    @PreAuthorize("hasAnyRole('FUNCIONARIO')")
     @PatchMapping("/{livroId}")
     public ResponseEntity<ApiResponse<?>> atualizar(@PathVariable(name = "livroId") Long id, @RequestBody LivroRequest livroRequest){
         var resultado =  livroService.atualizar(id, livroRequest);
@@ -40,6 +43,7 @@ public class LivroController {
         return ResponseEntity.status(resultado.getHttpStatus()).body(resultado);
     }
 
+    @PreAuthorize("hasAnyRole('FUNCIONARIO')")
     @DeleteMapping("/{livroId}")
     public ResponseEntity<ApiResponse<?>> deletar(@PathVariable(name = "livroId") Long id) {
         var resultado = livroService.deletar(id);

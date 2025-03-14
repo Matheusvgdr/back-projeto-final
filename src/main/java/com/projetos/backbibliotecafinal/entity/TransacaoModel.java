@@ -39,6 +39,8 @@ public class TransacaoModel {
     @ManyToOne
     private UsuarioModel usuario;
 
+    private BigDecimal multa;
+
     @Column()
     private StatusEmprestimoEnum status;
 
