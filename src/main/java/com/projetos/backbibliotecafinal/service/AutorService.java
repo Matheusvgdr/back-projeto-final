@@ -1,7 +1,7 @@
 package com.projetos.backbibliotecafinal.service;
 
 import com.projetos.backbibliotecafinal.constants.messages.AutorMessage;
-import com.projetos.backbibliotecafinal.dto.request.AutorRequest;
+import com.projetos.backbibliotecafinal.dto.request.autor.AutorRequest;
 import com.projetos.backbibliotecafinal.dto.response.ApiResponse;
 import com.projetos.backbibliotecafinal.dto.response.InsercaoExistenteResponse;
 import com.projetos.backbibliotecafinal.entity.AutorModel;
@@ -29,17 +29,17 @@ public class AutorService {
     }
 
     public ApiResponse<List<AutorModel>> buscar() { //TODO: criar response retirando a data de exclusao
-        var autores = autorRepository.findAll();
+        var autores = autorRepository.findAllActive();
 
         if (autores.isEmpty()) {
             throw new AutorNaoEncontradoException(AutorMessage.SEARCH_LIST_NOT_FOUND);
         }
 
-        return new ApiResponse<>(autorRepository.findAllActive(), AutorMessage.SEARCH_LIST_SUCCESS, HttpStatus.OK.value());
+        return new ApiResponse<>(autores, AutorMessage.SEARCH_LIST_SUCCESS, HttpStatus.OK.value());
     }
 
     public AutorModel buscarPorId(Long id) {
-        return autorRepository.findByIdActive(id).orElseThrow(() -> new AutorNaoEncontradoException(AutorMessage.INDIVIDUAL_NOT_FOUND));
+        return autorRepository.findByIdActive(id).orElseThrow(() -> new AutorNaoEncontradoException(AutorMessage.REGISTER_NOT_FOUND));
     }
 
     public InsercaoExistenteResponse<AutorModel> buscarOuSalvar(AutorModel autorModel) {
@@ -65,7 +65,7 @@ public class AutorService {
             autor.setNome(autorRequest.nome());
             autorRepository.save(autor);
         }, () -> {
-            throw new AutorNaoEncontradoException(AutorMessage.INDIVIDUAL_NOT_FOUND);
+            throw new AutorNaoEncontradoException(AutorMessage.REGISTER_NOT_FOUND);
         });
 
         return new ApiResponse<>(null, AutorMessage.UPDATE_SUCCESS, HttpStatus.OK.value());
@@ -76,7 +76,7 @@ public class AutorService {
             autor.setDataExclusao(LocalDate.now());
             autorRepository.save(autor);
         }, () -> {
-            throw new AutorNaoEncontradoException(AutorMessage.INDIVIDUAL_NOT_FOUND);
+            throw new AutorNaoEncontradoException(AutorMessage.REGISTER_NOT_FOUND);
         });
 
         return new ApiResponse<>(null, AutorMessage.DELETE_SUCCESS, HttpStatus.OK.value());

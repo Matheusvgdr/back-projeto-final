@@ -1,6 +1,6 @@
 package com.projetos.backbibliotecafinal.utils.mapper;
 
-import com.projetos.backbibliotecafinal.dto.request.AutorRequest;
+import com.projetos.backbibliotecafinal.dto.request.autor.AutorRequest;
 import com.projetos.backbibliotecafinal.entity.AutorModel;
 import org.mapstruct.Mapper;
 

@@ -1,6 +1,6 @@
 package com.projetos.backbibliotecafinal.controller;
 
-import com.projetos.backbibliotecafinal.dto.request.UsuarioRequest;
+import com.projetos.backbibliotecafinal.dto.request.usuario.UsuarioRequest;
 import com.projetos.backbibliotecafinal.dto.response.ApiResponse;
 import com.projetos.backbibliotecafinal.service.UsuarioService;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -19,15 +19,10 @@ public class UsuarioController {
 
 
     @PostMapping
-    public ResponseEntity<ApiResponse<?>> salvar(@RequestBody @Valid UsuarioRequest usuarioRequest) {
+    public ResponseEntity<ApiResponse<Long>> salvar(@RequestBody @Valid UsuarioRequest usuarioRequest) {
         var resultado = usuarioService.salvar(usuarioRequest);
         return ResponseEntity.status(resultado.getHttpStatus()).body(resultado);
     }
 
-    @GetMapping
-    public void teste(){
-        usuarioService.importarAutores();
-        var po = 1;
-    }
 
 }

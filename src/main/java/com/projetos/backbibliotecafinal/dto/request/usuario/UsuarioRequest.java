@@ -1,6 +1,5 @@
-package com.projetos.backbibliotecafinal.dto.request;
+package com.projetos.backbibliotecafinal.dto.request.usuario;
 
-import com.projetos.backbibliotecafinal.constants.enums.CategoriaEnum;
 import com.projetos.backbibliotecafinal.constants.enums.TipoUsuarioEnum;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -19,11 +18,8 @@ public record UsuarioRequest(
         @NotBlank(message = "O campo CPF é obrigatório")
         @Size(min = 11, max = 11, message = "O CPF deve conter 11 dígitos")
         String cpf,
-
         @NotNull(message = "O campo tipo usuário é obrigatório")
-        TipoUsuarioEnum tipo,
+        TipoUsuarioEnum tipo
 
-        @NotNull(message = "O campo categoria é obrigatório")
-        CategoriaEnum categoria
 ) {
 }

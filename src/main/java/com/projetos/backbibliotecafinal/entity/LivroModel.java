@@ -18,12 +18,13 @@ import java.util.List;
 @Table(name = "tb005_livro")
 public class LivroModel {
 
-    public LivroModel(String titulo, AutorModel autor, EditoraModel editora, BigDecimal preco, String isbn) {
+    public LivroModel(String titulo, AutorModel autor, EditoraModel editora, BigDecimal preco, String isbn, BibliotecaModel biblioteca) {
         this.titulo = titulo;
         this.autor = autor;
         this.editora = editora;
         this.preco = preco;
         this.isbn = isbn;
+        this.biblioteca = biblioteca;
     }
 
     @Id

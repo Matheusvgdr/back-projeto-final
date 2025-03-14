@@ -3,9 +3,8 @@ package com.projetos.backbibliotecafinal.service;
 import com.projetos.backbibliotecafinal.constants.enums.StatusEmprestimoEnum;
 import com.projetos.backbibliotecafinal.constants.enums.TipoTransacaoEnum;
 import com.projetos.backbibliotecafinal.constants.messages.TransacaoMessage;
-import com.projetos.backbibliotecafinal.dto.request.TransacaoRequest;
+import com.projetos.backbibliotecafinal.dto.request.transacao.TransacaoRequest;
 import com.projetos.backbibliotecafinal.dto.response.ApiResponse;
-import com.projetos.backbibliotecafinal.dto.response.LivroResponse;
 import com.projetos.backbibliotecafinal.dto.response.TransacaoResponse;
 import com.projetos.backbibliotecafinal.entity.LivroModel;
 import com.projetos.backbibliotecafinal.entity.TransacaoModel;
@@ -20,7 +19,6 @@ import org.springframework.stereotype.Service;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.concurrent.atomic.AtomicReference;
 
 @Service
 @RequiredArgsConstructor

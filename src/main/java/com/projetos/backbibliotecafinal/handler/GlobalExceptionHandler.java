@@ -9,6 +9,8 @@ import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+
+import javax.naming.AuthenticationException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -34,6 +36,12 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler({AutorNaoEncontradoException.class})
     public ResponseEntity<ApiResponse<?>> handleAutorNaoEncontradoException(AutorNaoEncontradoException e) {
+        var resultado = new ApiResponse<>(null, e.getMessage(), HttpStatus.NOT_FOUND.value());
+        return ResponseEntity.status(resultado.getHttpStatus()).body(resultado);
+    }
+
+    @ExceptionHandler({RuntimeException.class})
+    public ResponseEntity<ApiResponse<?>> handleAuthenticationException(RuntimeException e) {
         var resultado = new ApiResponse<>(null, e.getMessage(), HttpStatus.NOT_FOUND.value());
         return ResponseEntity.status(resultado.getHttpStatus()).body(resultado);
     }

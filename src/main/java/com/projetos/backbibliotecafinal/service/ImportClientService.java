@@ -18,13 +18,15 @@ public class ImportClientService {
     private final EditoraService editoraService;
     private final ImportClient importClient;
     private final LivroService livroService;
+    private final BibliotecaService bibliotecaService;
 
-    public ApiResponse<ImportacaoReponse> importarDados() {
+    public ApiResponse<ImportacaoReponse> importarDados(Long id) {
         var dadosImportados = importClient.importarAutores();
 
         long insercoesLivros = 0;
         long insercoesAutores = 0;
         long insercoesEditoras = 0;
+
 
         for (var dado : dadosImportados) {
 
@@ -36,7 +38,7 @@ public class ImportClientService {
             if (!editora.isExiste())
                 insercoesEditoras++;
 
-            var livro = livroService.buscarOuCriarLivro(new LivroModel(dado.nomeLivro(), autor.getDado(), editora.getDado(), dado.precoLivro(), dado.isbn()));
+            var livro = livroService.buscarOuCriarLivro(new LivroModel(dado.nomeLivro(), autor.getDado(), editora.getDado(), dado.precoLivro(), dado.isbn(), bibliotecaService.buscarBibliotecaPorUsuarioId(id)));
             if (!livro.isExiste())
                 insercoesLivros++;
         }

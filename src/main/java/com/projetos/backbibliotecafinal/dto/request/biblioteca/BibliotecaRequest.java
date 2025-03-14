@@ -1,4 +1,4 @@
-package com.projetos.backbibliotecafinal.dto.request;
+package com.projetos.backbibliotecafinal.dto.request.biblioteca;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;

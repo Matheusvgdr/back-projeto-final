@@ -1,11 +1,10 @@
 package com.projetos.backbibliotecafinal.service;
 
 import com.projetos.backbibliotecafinal.constants.messages.LivroMessage;
-import com.projetos.backbibliotecafinal.dto.request.LivroRequest;
+import com.projetos.backbibliotecafinal.dto.request.livro.LivroRequest;
 import com.projetos.backbibliotecafinal.dto.response.ApiResponse;
 import com.projetos.backbibliotecafinal.dto.response.InsercaoExistenteResponse;
-import com.projetos.backbibliotecafinal.entity.AutorModel;
-import com.projetos.backbibliotecafinal.entity.EditoraModel;
+import com.projetos.backbibliotecafinal.dto.response.LivroResponse;
 import com.projetos.backbibliotecafinal.entity.LivroModel;
 import com.projetos.backbibliotecafinal.handler.exceptions.AutorNaoEncontradoException;
 import com.projetos.backbibliotecafinal.handler.exceptions.LivroNaoEncontradoException;
@@ -26,15 +25,15 @@ public class LivroService {
     private final LivroMapper livroMapper;
     private final AutorService autorService;
     private final EditoraService editoraService;
+    private final BibliotecaService bibliotecaService;
 
-
-    public ApiResponse<List<LivroModel>> buscarTodos(){
+    public ApiResponse<List<LivroResponse>> buscarTodos(){
         var livros = livroRepository.findAllActive();
 
         if(livros.isEmpty())
             throw new LivroNaoEncontradoException(LivroMessage.SEARCH_LIST_NOT_FOUND);
 
-        return new ApiResponse<>(livros, LivroMessage.SEARCH_LIST_SUCCESS, HttpStatus.OK.value());
+        return new ApiResponse<>(livroMapper.toListLivroResponse(livros), LivroMessage.SEARCH_LIST_SUCCESS, HttpStatus.OK.value());
     }
 
     public ApiResponse<?> salvar(LivroRequest livroRequest) {
@@ -43,16 +42,17 @@ public class LivroService {
 
         livroNovo.setAutor(autorService.buscarPorId(livroRequest.idAutor()));
         livroNovo.setEditora(editoraService.buscarPorId(livroRequest.idEditora()));
+        livroNovo.setBiblioteca(bibliotecaService.buscarPorId(livroRequest.idBiblioteca()));
         livroRepository.save(livroNovo);
 
-        return new ApiResponse<>(null, LivroMessage.CADASTRO_SUCESSO, HttpStatus.CREATED.value());
+        return new ApiResponse<>(null, LivroMessage.SAVE_SUCCESS, HttpStatus.CREATED.value());
     }
 
     public ApiResponse<?> atualizar(Long idLivro, LivroRequest livroRequest) {
-        var livroOriginal = livroRepository.findById(idLivro);
+        var livroOriginal = livroRepository.findByIdActive(idLivro);
 
         if (livroOriginal.isEmpty())
-            throw new AutorNaoEncontradoException("");
+            throw new LivroNaoEncontradoException(LivroMessage.REGISTER_NOT_FOUND);
 
         var livroNovo = livroOriginal.get();
 
@@ -77,20 +77,20 @@ public class LivroService {
 
         livroRepository.save(livroNovo);
 
-        return new ApiResponse<>(null, "", HttpStatus.OK.value());
+        return new ApiResponse<>(null, LivroMessage.UPDATE_SUCCESS, HttpStatus.OK.value());
     }
 
     public ApiResponse<?> deletar(Long id) {
-        livroRepository.findById(id).ifPresent(livro -> {
+        livroRepository.findByIdActive(id).ifPresent(livro -> {
             livro.setDataExclusao(LocalDate.now());
             livroRepository.save(livro);
         });
 
-        return new ApiResponse<>(null, "", HttpStatus.NO_CONTENT.value());
+        return new ApiResponse<>(null, LivroMessage.DELETE_SUCCESS.formatted(), HttpStatus.OK.value());
     }
 
     public LivroModel buscarPorId(Long id){
-        return livroRepository.findByIdActive(id).orElseThrow(() -> new LivroNaoEncontradoException(LivroMessage.INDIVIDUAL_NOT_FOUND));
+        return livroRepository.findByIdActive(id).orElseThrow(() -> new LivroNaoEncontradoException(LivroMessage.REGISTER_NOT_FOUND));
     }
 
     public InsercaoExistenteResponse<LivroModel> buscarOuCriarLivro(LivroModel livroModel) {

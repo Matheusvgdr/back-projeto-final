@@ -1,8 +1,8 @@
-package com.projetos.backbibliotecafinal.dto.request;
+package com.projetos.backbibliotecafinal.dto.request.editora;
 
 import jakarta.validation.constraints.NotBlank;
 
-public record AutorRequest(
+public record EditoraRequest(
         @NotBlank(message = "O campo nome é obrigatório") String nome
 ) {
 }

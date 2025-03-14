@@ -26,7 +26,7 @@ public class BibliotecaModel {
     @Column(nullable = false, length = 120)
     private String endereco;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne
     private UsuarioModel usuario;
 
     private LocalDate dataExclusao;

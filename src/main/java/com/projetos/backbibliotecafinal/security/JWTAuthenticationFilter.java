@@ -2,11 +2,14 @@ package com.projetos.backbibliotecafinal.security;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.projetos.backbibliotecafinal.dto.LoginUsuarioDto;
+import com.projetos.backbibliotecafinal.dto.response.TokenResponse;
+import io.swagger.v3.core.util.Json;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.AuthenticationServiceException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
@@ -34,8 +37,8 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
                     new UsernamePasswordAuthenticationToken(loginDto.email(), loginDto.senha())
             );
 
-        } catch (Exception e) {
-            throw new RuntimeException(e.getMessage());
+        }  catch (Exception e) {
+            throw new RuntimeException(e);
         }
 
     }
@@ -52,9 +55,8 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
                 .stream().map(grantedAuthority -> grantedAuthority.getAuthority())
                 .toList();
 
-        var token = JwtUtils.generateToken(email, perfil);
-
-        response.getWriter().write(token);
+        var token = new TokenResponse(JwtUtils.generateToken(email, perfil));
+        Json.mapper().writeValue(response.getWriter(), token);
         response.getWriter().flush();
 
 

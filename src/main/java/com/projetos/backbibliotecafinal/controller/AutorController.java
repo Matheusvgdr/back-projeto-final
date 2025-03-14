@@ -1,6 +1,6 @@
 package com.projetos.backbibliotecafinal.controller;
 
-import com.projetos.backbibliotecafinal.dto.request.AutorRequest;
+import com.projetos.backbibliotecafinal.dto.request.autor.AutorRequest;
 import com.projetos.backbibliotecafinal.dto.response.ApiResponse;
 import com.projetos.backbibliotecafinal.entity.AutorModel;
 import com.projetos.backbibliotecafinal.service.AutorService;

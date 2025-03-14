@@ -1,10 +1,9 @@
 package com.projetos.backbibliotecafinal.controller;
 
 
-import com.projetos.backbibliotecafinal.dto.request.AutorRequest;
-import com.projetos.backbibliotecafinal.dto.request.BibliotecaRequest;
-import com.projetos.backbibliotecafinal.dto.request.LivroRequest;
+import com.projetos.backbibliotecafinal.dto.request.livro.LivroRequest;
 import com.projetos.backbibliotecafinal.dto.response.ApiResponse;
+import com.projetos.backbibliotecafinal.dto.response.LivroResponse;
 import com.projetos.backbibliotecafinal.entity.LivroModel;
 import com.projetos.backbibliotecafinal.service.LivroService;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -36,8 +35,14 @@ public class LivroController {
     }
 
     @GetMapping
-    public ResponseEntity<ApiResponse<List<LivroModel>>> buscarTodos(){
+    public ResponseEntity<ApiResponse<List<LivroResponse>>> buscarTodos(){
         var resultado = livroService.buscarTodos();
+        return ResponseEntity.status(resultado.getHttpStatus()).body(resultado);
+    }
+
+    @DeleteMapping("/{livroId}")
+    public ResponseEntity<ApiResponse<?>> deletar(@PathVariable(name = "livroId") Long id) {
+        var resultado = livroService.deletar(id);
         return ResponseEntity.status(resultado.getHttpStatus()).body(resultado);
     }
 

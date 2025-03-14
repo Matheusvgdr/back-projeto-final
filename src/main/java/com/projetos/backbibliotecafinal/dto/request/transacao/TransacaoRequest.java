@@ -1,6 +1,5 @@
-package com.projetos.backbibliotecafinal.dto.request;
+package com.projetos.backbibliotecafinal.dto.request.transacao;
 
-import com.projetos.backbibliotecafinal.constants.enums.StatusEmprestimoEnum;
 import com.projetos.backbibliotecafinal.constants.enums.TipoTransacaoEnum;
 import jakarta.validation.constraints.NotNull;
 

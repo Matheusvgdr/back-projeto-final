@@ -10,7 +10,6 @@ import java.util.Optional;
 @Repository
 public interface TransacaoRepository extends JpaRepository<TransacaoModel, Long> {
 
-    //TODO: verificar retorno do metodo
     @Query("SELECT T FROM TransacaoModel T WHERE T.usuario.id = ?1 AND T.status = com.projetos.backbibliotecafinal.constants.enums.StatusEmprestimoEnum.EMPRESTADO")
     Optional<TransacaoModel> findByIdUsuario(Long idUsuario);
 

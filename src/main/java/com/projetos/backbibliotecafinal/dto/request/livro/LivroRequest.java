@@ -1,4 +1,4 @@
-package com.projetos.backbibliotecafinal.dto.request;
+package com.projetos.backbibliotecafinal.dto.request.livro;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -10,6 +10,7 @@ public record LivroRequest(
         @NotBlank(message = "O campo isbn é obrigatório") String isbn,
         @NotNull Long idAutor,
         @NotNull Long idEditora,
+        @NotNull Long idBiblioteca,
         @NotNull(message = "O campo preço é obrigatório") BigDecimal preco
 
 ) {
