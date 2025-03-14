@@ -1,6 +1,7 @@
-# Gerenciamento de biblioteca
+# Gerenciador de Bibliotecas 📗
 ![Documentação da API](doc/documentacao.png)
-## Descrição
+
+## Descrição ✏️
 
 Back-Biblioteca-Final é o backend de uma aplicação voltada para a gestão de bibliotecas e livrarias, permitindo o empréstimo e a compra de livros.
 O sistema possui dois tipos de usuários:
@@ -8,7 +9,7 @@ O sistema possui dois tipos de usuários:
 - **Cliente**: pode visualizar bibliotecas e seus livros, escolhendo entre comprar ou pegar um livro emprestado.
 - **Funcionário**: responsável por cadastrar bibliotecas, livros e autores, além de gerenciar os empréstimos.
 
-## Estrutura do Projeto
+## Estrutura do Projeto 🏗️
 
 ```
 
@@ -40,7 +41,7 @@ O sistema possui dois tipos de usuários:
 
 ```
 
-## Tecnologias Utilizadas
+## Tecnologias Utilizadas 🔧
 
 - **Java 17**
 - **Spring Boot 3.3.8**
@@ -53,14 +54,14 @@ O sistema possui dois tipos de usuários:
 - **MapStruct** (mapeamento de objetos DTO)
 - **Jackson Databind** (serialização/deserialização de JSON)
 
-## Configuração e Instalação
+## Configuração e Instalação ⚙️
 
 ### Requisitos
 
 - **Java 17** ou superior
 - **Maven 3.8+**
 
-### Passos para rodar o projeto localmente
+### Passos para rodar o projeto localmente 🔨
 
 1. Clone o repositório:
    ```sh
@@ -77,7 +78,7 @@ O sistema possui dois tipos de usuários:
 
 O backend estará rodando em `http://localhost:8080`
 
-## Passos para a utilização do Spring OpenFeign no backend
+## Passos para a utilização do Spring OpenFeign no backend 🔗
 
    Utilizar o arquivo chamado [db.json](database/db.json) que está no diretório database, na raiz do projeto
 
@@ -100,7 +101,7 @@ O backend estará rodando em `http://localhost:8080`
    npx json-server db.json
    ```
 
-## Documentação da API
+## Documentação da API 📃
 
 A documentação das APIs está disponível em:
 
@@ -114,11 +115,8 @@ Se o Swagger estiver ativado, a documentação também pode ser acessada localme
 http://localhost:8080/swagger-ui/index.html
 ```
 
-## Contribuição
+## Contribuição 🤝
 
 Pull requests são bem-vindos! Para mudanças maiores, abra uma issue primeiro para discutirmos.
 
-## Licença
-
-Este projeto não possui uma licença definida.
 
