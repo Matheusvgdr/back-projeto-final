@@ -8,8 +8,6 @@ O sistema possui dois tipos de usuários:
 - **Cliente**: pode visualizar bibliotecas e seus livros, escolhendo entre comprar ou pegar um livro emprestado.
 - **Funcionário**: responsável por cadastrar bibliotecas, livros e autores, além de gerenciar os empréstimos.
 
-![Documentação](doc/documentacao.png)
-
 ## Estrutura do Projeto
 
 ```
