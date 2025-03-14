@@ -1,5 +1,5 @@
 # Back-Biblioteca-Final
-
+![Documentação da API](doc/documentacao.png)
 ## Descrição
 
 Back-Biblioteca-Final é o backend de uma aplicação voltada para a gestão de bibliotecas e livrarias, permitindo o empréstimo e a compra de livros.
@@ -7,6 +7,40 @@ O sistema possui dois tipos de usuários:
 
 - **Cliente**: pode visualizar bibliotecas e seus livros, escolhendo entre comprar ou pegar um livro emprestado.
 - **Funcionário**: responsável por cadastrar bibliotecas, livros e autores, além de gerenciar os empréstimos.
+
+![Documentação](doc/documentacao.png)
+
+## Estrutura do Projeto
+
+```
+
+└───backbibliotecafinal/
+    ├───client/
+    ├───constants/
+    │   ├───enums/
+    │   └───messages/
+    ├───controller/
+    ├───dto/
+    │   ├───request/
+    │   │   ├───autor/
+    │   │   ├───biblioteca/
+    │   │   ├───editora/
+    │   │   ├───livro/
+    │   │   ├───transacao/
+    │   │   └───usuario/
+    │   └───response/
+    ├───entity/
+    ├───handler/
+    │   └───exceptions/
+    ├───repository/
+    ├───security/
+    ├───service/
+    ├───utils/
+    │   ├───helper/
+    │   └───mapper/
+    └───validations/
+
+```
 
 ## Tecnologias Utilizadas
 
@@ -44,6 +78,29 @@ O sistema possui dois tipos de usuários:
    ```
 
 O backend estará rodando em `http://localhost:8080`
+
+## Passos para a utilização do Spring OpenFeign no backend
+
+   Utilizar o arquivo chamado [db.json](database/db.json) que está no diretório database, na raiz do projeto
+
+1. Instalar o Angular, ou qualquer ferramenta que utilize o node
+   ```sh
+   npm install -g @angular/cli
+   ```
+2. Criação do projeto
+   ```sh
+   ng new nome-do-projeto
+   ```
+3. Instalação do json-server
+
+   ```sh
+   npm install json-server
+   ```
+4. Execução do json-server
+
+   ```sh
+   npx json-server db.json
+   ```
 
 ## Documentação da API
 

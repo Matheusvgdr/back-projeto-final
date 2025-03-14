@@ -1,0 +1,268 @@
+{
+  "books": [
+    {
+      "id": "1",
+      "name": "William Shakespeare",
+      "book": "Hamlet",
+      "isbn": "978-0521618748",
+      "publisher": "Cambridge University Press",
+      "price": 39.99
+    },
+    {
+      "id": "2",
+      "name": "Jane Austen",
+      "book": "Pride and Prejudice",
+      "isbn": "978-1503290563",
+      "publisher": "CreateSpace Independent Publishing",
+      "price": 14.99
+    },
+    {
+      "id": "3",
+      "name": "J.R.R. Tolkien",
+      "book": "The Lord of the Rings",
+      "isbn": "978-0261102385",
+      "publisher": "HarperCollins",
+      "price": 49.99
+    },
+    {
+      "id": "4",
+      "name": "George Orwell",
+      "book": "1984",
+      "isbn": "978-0451524935",
+      "publisher": "Signet Classics",
+      "price": 19.99
+    },
+    {
+      "id": "5",
+      "name": "Agatha Christie",
+      "book": "Murder on the Orient Express",
+      "isbn": "978-0062693662",
+      "publisher": "HarperCollins",
+      "price": 12.99
+    },
+    {
+      "id": "6",
+      "name": "Mark Twain",
+      "book": "The Adventures of Tom Sawyer",
+      "isbn": "978-0486400778",
+      "publisher": "Dover Publications",
+      "price": 9.99
+    },
+    {
+      "id": "7",
+      "name": "Leo Tolstoy",
+      "book": "War and Peace",
+      "isbn": "978-1400079988",
+      "publisher": "Vintage",
+      "price": 45.99
+    },
+    {
+      "id": "8",
+      "name": "Gabriel García Márquez",
+      "book": "One Hundred Years of Solitude",
+      "isbn": "978-0060883287",
+      "publisher": "Harper Perennial",
+      "price": 24.99
+    },
+    {
+      "id": "9",
+      "name": "Fyodor Dostoevsky",
+      "book": "Crime and Punishment",
+      "isbn": "978-0143058144",
+      "publisher": "Penguin Classics",
+      "price": 21.50
+    },
+    {
+      "id": "10",
+      "name": "Ernest Hemingway",
+      "book": "The Old Man and the Sea",
+      "isbn": "978-0684801223",
+      "publisher": "Scribner",
+      "price": 13.49
+    },
+    {
+      "id": "11",
+      "name": "Harper Lee",
+      "book": "To Kill a Mockingbird",
+      "isbn": "978-0061120084",
+      "publisher": "Harper Perennial",
+      "price": 18.99
+    },
+    {
+      "id": "12",
+      "name": "J.K. Rowling",
+      "book": "Harry Potter and the Sorcerer's Stone",
+      "isbn": "978-0590353427",
+      "publisher": "Scholastic",
+      "price": 29.99
+    },
+    {
+      "id": "13",
+      "name": "Victor Hugo",
+      "book": "Les Misérables",
+      "isbn": "978-0451419439",
+      "publisher": "Signet",
+      "price": 27.99
+    },
+    {
+      "id": "14",
+      "name": "Charles Dickens",
+      "book": "Great Expectations",
+      "isbn": "978-1503275188",
+      "publisher": "CreateSpace Independent Publishing",
+      "price": 16.99
+    },
+    {
+      "id": "15",
+      "name": "Franz Kafka",
+      "book": "The Metamorphosis",
+      "isbn": "978-0486290300",
+      "publisher": "Dover Publications",
+      "price": 7.99
+    },
+    {
+      "id": "16",
+      "name": "Emily Brontë",
+      "book": "Wuthering Heights",
+      "isbn": "978-1505313109",
+      "publisher": "Independently Published",
+      "price": 11.99
+    },
+    {
+      "id": "17",
+      "name": "Homer",
+      "book": "The Odyssey",
+      "isbn": "978-0140268866",
+      "publisher": "Penguin Classics",
+      "price": 22.99
+    },
+    {
+      "id": "18",
+      "name": "Miguel de Cervantes",
+      "book": "Don Quixote",
+      "isbn": "978-0060934347",
+      "publisher": "Harper Perennial",
+      "price": 34.99
+    },
+    {
+      "id": "19",
+      "name": "F. Scott Fitzgerald",
+      "book": "The Great Gatsby",
+      "isbn": "978-0743273565",
+      "publisher": "Scribner",
+      "price": 17.50
+    },
+    {
+      "id": "20",
+      "name": "H.P. Lovecraft",
+      "book": "The Call of Cthulhu",
+      "isbn": "978-1542461692",
+      "publisher": "CreateSpace Independent Publishing",
+      "price": 10.99
+    },
+    {
+      "id": "21",
+      "name": "Arthur Conan Doyle",
+      "book": "Sherlock Holmes",
+      "isbn": "978-1784284000",
+      "publisher": "Arcturus Publishing",
+      "price": 14.50
+    },
+    {
+      "id": "22",
+      "name": "Isaac Asimov",
+      "book": "Foundation",
+      "isbn": "978-0553293357",
+      "publisher": "Spectra",
+      "price": 20.99
+    },
+    {
+      "id": "23",
+      "name": "Jules Verne",
+      "book": "Twenty Thousand Leagues Under the Sea",
+      "isbn": "978-0451531698",
+      "publisher": "Signet Classics",
+      "price": 12.50
+    },
+    {
+      "id": "24",
+      "name": "Ray Bradbury",
+      "book": "Fahrenheit 451",
+      "isbn": "978-1451673319",
+      "publisher": "Simon & Schuster",
+      "price": 15.99
+    },
+    {
+      "id": "25",
+      "name": "Aldous Huxley",
+      "book": "Brave New World",
+      "isbn": "978-0060850524",
+      "publisher": "Harper Perennial",
+      "price": 19.50
+    },
+    {
+      "id": "26",
+      "name": "Bram Stoker",
+      "book": "Dracula",
+      "isbn": "978-0486411095",
+      "publisher": "Dover Publications",
+      "price": 10.99
+    },
+    {
+      "id": "27",
+      "name": "Mary Shelley",
+      "book": "Frankenstein",
+      "isbn": "978-0486282114",
+      "publisher": "Dover Publications",
+      "price": 9.99
+    },
+    {
+      "id": "28",
+      "name": "George R.R. Martin",
+      "book": "A Game of Thrones",
+      "isbn": "978-0553593716",
+      "publisher": "Bantam",
+      "price": 35.99
+    },
+    {
+      "id": "29",
+      "name": "Stephen King",
+      "book": "The Shining",
+      "isbn": "978-0307743657",
+      "publisher": "Anchor",
+      "price": 18.99
+    },
+    {
+      "id": "30",
+      "name": "Dan Brown",
+      "book": "The Da Vinci Code",
+      "isbn": "978-0307474278",
+      "publisher": "Anchor",
+      "price": 22.50
+    },
+    {
+      "id": "31",
+      "name": "Dan Brownie",
+      "book": "The Da Vinci Code",
+      "isbn": "978-0307474279",
+      "publisher": "Anchor",
+      "price": 27.50
+    },
+    {
+      "id": "32",
+      "name": "Dane Brownie",
+      "book": "The Da Vinci Code",
+      "isbn": "978-0307474276",
+      "publisher": "Anchor",
+      "price": 27.50
+    },
+    {
+      "id": "33",
+      "name": "Danio Brownie",
+      "book": "The Da Vinci Code",
+      "isbn": "978-0307474276",
+      "publisher": "Anchor",
+      "price": 27.50
+    }
+  ]
+}
